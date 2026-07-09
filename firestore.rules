@@ -1,0 +1,24 @@
+rules_version = '2';
+
+// 每位使用者的學習進度只有本人可讀寫；單字庫公開唯讀。
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 學習進度（單字卡 + 測驗紀錄）：users/{uid}，只有本人可存取
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 單字庫：公開唯讀。
+    // 上傳（npm run upload-vocab）時，暫時把下面兩個 write 改成 if true; 發布，
+    // 上傳完再改回 if false; 重新發布。
+    match /meta/{doc} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /vocabChunks/{chunk} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

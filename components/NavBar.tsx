@@ -9,6 +9,7 @@ const LINKS = [
   { href: "/vocab", label: "單字庫" },
   { href: "/flashcards", label: "單字卡" },
   { href: "/quiz", label: "測驗" },
+  { href: "/history", label: "紀錄" },
 ];
 
 export function NavBar() {
